@@ -203,17 +203,7 @@ def run_rsf_with_imported_features(
         test_idx = X_test.index.tolist()
         y_surv_train = y_survival1[train_idx]
         y_surv_test = y_survival1[test_idx]
-    else:
-        X_train = X1
-        y_train = y1
-        train_idx = X_train.index.tolist()
-        y_surv_train = y_survival1[train_idx]
-
-    best_rsf = train_rsf_model(X_train, y_surv_train, random_state=random_state)
-    y_pred_surv_funcs_train = best_rsf.predict_survival_function(X_train)
-    y_pred_surv_prob_train = np.array([fn(time_point) for fn in y_pred_surv_funcs_train])
-    pred_event_prob_train = 1 - y_pred_surv_prob_train
-    pred_binary_train = (y_pred_surv_prob_train < threshold).astype(int)
+   
 
     accuracy_train = accuracy_score(y_train, pred_binary_train)
     c_index_train = concordance_index_censored(
